@@ -1,6 +1,8 @@
+'use client'
 import { ChevronRight, MessageCircle } from "lucide-react";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
+import { LocalTypewriter } from "../TypingComponent";
 
 export const Hero = () => {
   return (
@@ -14,7 +16,10 @@ export const Hero = () => {
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900">
           Master German from <span className="text-blue-600">Nepal</span>
           <br />
-          Your Journey to <span className="text-red-600">Germany</span>
+          Your Journey to <LocalTypewriter
+    text={"Germany"}
+    className="text-4xl sm:text-5xl md:text-6xl font-bold text-red-600"
+  />
         </h1>
         <Badge className="bg-blue-600">Starts Here</Badge>
 
@@ -47,7 +52,7 @@ export const Hero = () => {
         </div>
 
         {/* Trust Badge */}
-        <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
+        <div className="hidden md:flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
           <div className="flex -space-x-2">
             <div className="w-10 h-10 rounded-full bg-blue-400 border-2 border-white"></div>
             <div className="w-10 h-10 rounded-full bg-green-400 border-2 border-white"></div>

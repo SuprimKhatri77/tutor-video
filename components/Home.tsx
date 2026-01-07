@@ -1,6 +1,6 @@
 import { About } from "./landing/About";
 import { Hero } from "./landing/Hero";
-import { SocialStats } from "./landing/SocialStats";
+import { Stats } from "./landing/Stats";
 import { Testimonial } from "./landing/Testimonial";
 
 
@@ -9,7 +9,7 @@ export default function Home() {
     <div>
       <Hero />
       <About />
-      <SocialStats />
+      <Stats />
       <Testimonial />
     </div>
   )
