@@ -1,4 +1,24 @@
 import { Facebook, Instagram, Languages } from "lucide-react";
+import Link from "next/link";
+
+const Quick_Links_Items = [
+  {
+    label: "Home",
+    link: "/"
+  },
+  {
+    label: "Videos",
+    link: "/videos"
+  },
+  {
+    label: "About Us",
+    link: "/about"
+  },
+  {
+    label: "Contact",
+    link: "/contact"
+  },
+]
 
 export const Footer = () => {
   return (
@@ -39,38 +59,18 @@ export const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-2">
-              <li>
-                <a
-                  href="#home"
+              {Quick_Links_Items.map((item)=>(
+              <li key={item.label}>
+                <Link
+                  href={item.link}
                   className="text-gray-600 hover:text-blue-600 transition text-sm"
                 >
-                  Home
-                </a>
+                  {item.label}
+                </Link>
               </li>
-              <li>
-                <a
-                  href="#about"
-                  className="text-gray-600 hover:text-blue-600 transition text-sm"
-                >
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#courses"
-                  className="text-gray-600 hover:text-blue-600 transition text-sm"
-                >
-                  Courses
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#testimonials"
-                  className="text-gray-600 hover:text-blue-600 transition text-sm"
-                >
-                  Success Stories
-                </a>
-              </li>
+
+              ))}
+             
             </ul>
           </div>
 
