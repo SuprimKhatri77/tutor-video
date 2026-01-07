@@ -9,17 +9,18 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@types/xml2js": "^0.4.14",
     "@radix-ui/react-slot": "^1.2.4",
+    "@types/xml2js": "^0.4.14",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.24.7",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "xml2js": "^0.6.2",
     "shadcn": "^3.6.3",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
