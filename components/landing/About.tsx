@@ -31,7 +31,7 @@ export const About = () => {
             <div className="space-y-6">
               <div>
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
-                  Hello! I&apos;m  Vikas
+                  Hello! I&apos;m Vikas
                 </h2>
                 <p className="text-blue-600 font-semibold text-lg">
                   C1 Certified German Tutor
@@ -39,26 +39,39 @@ export const About = () => {
               </div>
 
               <p className="text-gray-600 leading-relaxed text-lg">
-                With over 7 years of experience teaching German to Nepali students, I understand the specific challenges you face when learning this complex language. My teaching methodology blends rigorous grammar training with fun, interactive cultural immersion. I have helped over 500 students achieve their dream of studying and working in Germany.
+                With over 7 years of experience teaching German to Nepali
+                students, I understand the specific challenges you face when
+                learning this complex language. My teaching methodology blends
+                rigorous grammar training with fun, interactive cultural
+                immersion. I have helped over 500 students achieve their dream
+                of studying and working in Germany.
               </p>
 
               {/* Features Grid */}
               <div className="grid grid-cols-2 gap-4 pt-4">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 shrink-0" />
-                  <span className="text-gray-700 font-medium">Certified Trainer</span>
+                  <span className="text-gray-700 font-medium">
+                    Certified Trainer
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 shrink-0" />
-                  <span className="text-gray-700 font-medium">Exam Specialist</span>
+                  <span className="text-gray-700 font-medium">
+                    Exam Specialist
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 shrink-0" />
-                  <span className="text-gray-700 font-medium">Flexible Timings</span>
+                  <span className="text-gray-700 font-medium">
+                    Flexible Timings
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 shrink-0" />
-                  <span className="text-gray-700 font-medium">Small Batches</span>
+                  <span className="text-gray-700 font-medium">
+                    Small Batches
+                  </span>
                 </div>
               </div>
             </div>
