@@ -65,7 +65,7 @@ export default function ContactPage(): JSX.Element {
       return;
     }
 
-    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=mymail@gmail.com&su=${encodeURIComponent(
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=bikashtimalsina1992@gmail.com&su=${encodeURIComponent(
       formData.subject
     )}&body=${encodeURIComponent(
       `Name: ${formData.name}\n\n${formData.message}`
@@ -81,7 +81,7 @@ export default function ContactPage(): JSX.Element {
         <div className="mb-12 text-center">
           <h1 className="text-5xl font-bold text-black mb-4">Get in Touch</h1>
           <p className="text-gray-600 text-lg">
-            Fill out the form below and we&apos;ll get back to you shortly
+            Fill out the form below and I&apos;ll get back to you shortly
           </p>
         </div>
 
@@ -125,7 +125,7 @@ export default function ContactPage(): JSX.Element {
               className={`w-full px-4 py-3 border-2 ${
                 errors.subject ? "border-red-500" : "border-black"
               } bg-white text-black focus:outline-none focus:ring-2 focus:ring-black transition-all`}
-              placeholder="How can we help?"
+              placeholder="How can I help you?"
             />
             {errors.subject && (
               <p className="mt-1 text-sm text-red-500">{errors.subject}</p>
@@ -156,8 +156,9 @@ export default function ContactPage(): JSX.Element {
           </div>
 
           <button
+            disabled={formData.message === "" || formData.subject === "" || formData.name === "" }
             type="submit"
-            className="w-full bg-black text-white py-4 px-6 font-semibold text-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            className="w-full bg-black text-white py-4 px-6 font-semibold disabled:opacity-75 text-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
           >
             Continue to Gmail
           </button>
