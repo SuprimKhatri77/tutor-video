@@ -4,21 +4,18 @@ import Link from "next/link";
 const Quick_Links_Items = [
   {
     label: "Home",
-    link: "/"
+    link: "/",
   },
   {
     label: "Videos",
-    link: "/videos"
+    link: "/videos",
   },
-  {
-    label: "About Us",
-    link: "/about"
-  },
+
   {
     label: "Contact",
-    link: "/contact"
+    link: "/contact",
   },
-]
+];
 
 export const Footer = () => {
   return (
@@ -59,18 +56,16 @@ export const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-2">
-              {Quick_Links_Items.map((item)=>(
-              <li key={item.label}>
-                <Link
-                  href={item.link}
-                  className="text-gray-600 hover:text-blue-600 transition text-sm"
-                >
-                  {item.label}
-                </Link>
-              </li>
-
+              {Quick_Links_Items.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.link}
+                    className="text-gray-600 hover:text-blue-600 transition text-sm"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
               ))}
-             
             </ul>
           </div>
 
