@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { Play, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import { VideoSkeleton } from "./video-skeleton";
@@ -87,13 +87,15 @@ export default function YoutubeGallery() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 md:py-24">
         {/* Header Section */}
-        <div className="text-center mb-16 md:mb-20">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-            Your Journey to
-            <span className="block mt-2 bg-linear-to-r from-black to-gray-600 bg-clip-text text-transparent">
-              Germany
-            </span>
-          </h1>
+        <div className="text-center my-16 md:my-20">
+          {/* Note put type writer animation on video lesson text */}
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight">
+          Learn <span className="bg-linear-to-r from-red-600 to-red-800 bg-clip-text text-transparent ">German</span> Faster with My
+         <span className="block     ">
+          Videos
+        </span>
+        </h1>
+
           <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Master the German language and unlock opportunities. Expert guidance
             for your journey to Germany.
@@ -117,7 +119,7 @@ export default function YoutubeGallery() {
                 <div
                   key={video.id}
                   className="video-card group"
-                  style={{ "--index": index } as any}
+                  style={{ "--index": index } as CSSProperties}
                   onMouseEnter={() => setHoveredId(video.id)}
                   onMouseLeave={() => setHoveredId(null)}
                 >
@@ -194,11 +196,11 @@ export default function YoutubeGallery() {
             {hasMore && (
               <button
                 onClick={handleLoadMore}
-                className="group relative px-8 py-4 bg-black text-white font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-black/20 hover:scale-105"
+                className="group relative px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-black/20 hover:scale-105"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Load More Videos
-                  <ChevronDown className="w-5 h-5 transition-transform group-hover:translate-y-1" />
+                  <ChevronDown className="w-5 h-5 transition-transform group-hover:translate-y-1 ease-linear" />
                 </span>
                 <div className="absolute inset-0 bg-linear-to-r from-gray-900 to-black opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </button>
