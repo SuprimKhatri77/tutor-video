@@ -84,7 +84,25 @@ export default function ContactPage(): JSX.Element {
             Fill out the form below and I&apos;ll get back to you shortly
           </p>
         </div>
+        <div className="sr-only">
+          <h2>German Language Classes Contact</h2>
+          <p>
+            Contact Tutordai for German language classes, exam preparation, and
+            study in Germany guidance. The tutor is C1 certified and experienced
+            with Nepali students.
+          </p>
+        </div>
+        <div className="sr-only">
+          <h1 className="">Contact Your German Tutor</h1>
 
+          <p className="">
+            Have questions about learning German, exam preparation, or studying
+            in Germany? Reach out to a{" "}
+            <strong>C1 certified German tutor</strong> at Tutordai. This contact
+            form is ideal for course inquiries, class schedules, and guidance
+            for Nepali students planning to study or work in Germany.
+          </p>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
@@ -156,7 +174,11 @@ export default function ContactPage(): JSX.Element {
           </div>
 
           <button
-            disabled={formData.message === "" || formData.subject === "" || formData.name === "" }
+            disabled={
+              formData.message === "" ||
+              formData.subject === "" ||
+              formData.name === ""
+            }
             type="submit"
             className="w-full bg-black text-white py-4 px-6 font-semibold disabled:opacity-75 text-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
           >

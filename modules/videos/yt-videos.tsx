@@ -90,11 +90,13 @@ export default function YoutubeGallery() {
         <div className="text-center my-16 md:my-20">
           {/* Note put type writer animation on video lesson text */}
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight">
-          Learn <span className="bg-linear-to-r from-red-600 to-red-800 bg-clip-text text-transparent ">German</span> Faster with My
-         <span className="block     ">
-          Videos
-        </span>
-        </h1>
+            Learn{" "}
+            <span className="bg-linear-to-r from-red-600 to-red-800 bg-clip-text text-transparent ">
+              German
+            </span>{" "}
+            Faster with My
+            <span className="block     ">Videos</span>
+          </h1>
 
           <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Master the German language and unlock opportunities. Expert guidance
@@ -188,6 +190,15 @@ export default function YoutubeGallery() {
                   </div>
                 </div>
               ))}
+        </div>
+        <div className="sr-only">
+          <h2>Free German Learning Videos by C1 Certified Tutor</h2>
+          <p>
+            This page features public German language learning videos by a C1
+            certified German tutor from Nepal. The videos cover German grammar,
+            A1 to B2 levels, exam preparation, spoken German, and guidance for
+            students planning to study or work in Germany.
+          </p>
         </div>
 
         {/* Action Buttons */}
