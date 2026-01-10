@@ -180,7 +180,7 @@ export default function ContactPage(): JSX.Element {
               formData.name === ""
             }
             type="submit"
-            className="w-full bg-black text-white py-4 px-6 font-semibold disabled:opacity-75 text-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            className="w-full bg-blue-600 text-white py-4 px-6 font-semibold disabled:opacity-75 text-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
           >
             Continue to Gmail
           </button>

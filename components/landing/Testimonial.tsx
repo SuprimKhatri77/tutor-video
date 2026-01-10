@@ -39,7 +39,7 @@ export const Testimonial = () => {
   return (
     <section
       id="testimonials"
-      className="py-16 px-4 sm:px-6 lg:px-8 bg-white"
+      className="py-16 px-4 sm:px-6 lg:px-8"
     >
       <div className="max-w-7xl mx-auto">
         {/* Heading */}
@@ -86,14 +86,14 @@ export const Testimonial = () => {
           </CarouselContent>
 
 {/* carousel for mobile */}
-          <div className="flex justify-center gap-4 mt-6 md:hidden">
+          <div className="flex justify-center gap-4 mt-6 ">
   <CarouselPrevious className="relative inset-0 "/>
   <CarouselNext className="relative inset-0" />
 </div>
 
           {/* Controls */}
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
+          {/* <CarouselPrevious className="hidden md:flex" />
+          <CarouselNext className="hidden md:flex" /> */}
         </Carousel>
       </div>
     </section>

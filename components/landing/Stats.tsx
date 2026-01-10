@@ -7,7 +7,7 @@ export const Stats = () => {
   return (
     <section  className="py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-4 gap-12 items-center">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 items-center">
 
           {/* Stats */}
             <motion.div viewport={{once: true}} initial={{opacity: 0}} whileInView={{opacity:1}} transition={{duration: 0.6, ease: "easeIn"}}

@@ -1,5 +1,6 @@
-import { Facebook, Instagram, Languages } from "lucide-react";
+import {  Languages } from "lucide-react";
 import Link from "next/link";
+import {  FaTiktok, FaYoutube } from "react-icons/fa";
 
 const Quick_Links_Items = [
   {
@@ -14,6 +15,29 @@ const Quick_Links_Items = [
   {
     label: "Contact",
     link: "/contact",
+  },
+];
+
+const Legal_Item_Links = [
+  {
+    label: "Privacy Policy",
+    link: "/privacy-policy",
+  },
+  {
+    label: "Terms of Service",
+    link: "/terms-of-service",
+  }
+];
+
+
+const Social_Items = [
+  {
+    link: "https://www.tiktok.com/@tutordai?is_from_webapp=1&sender_device=pc",
+    icon: FaTiktok,
+  },
+  {
+    link: "https://youtube.com/@tutordai?si=M6O0CwELOJgEROFv",
+    icon: FaYoutube,
   },
 ];
 
@@ -35,18 +59,20 @@ export const Footer = () => {
               quality language education.
             </p>
             <div className="flex space-x-3">
-              <a
-                href="#"
-                className="w-10 h-10  bg-blue-600 text-white rounded-full flex items-center justify-center transition"
+              {
+                Social_Items.map((item)=>{
+                const Icon = item.icon
+                return  <a
+                key={item.link}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10  border-black border rounded-full flex items-center justify-center transition"
               >
-                <Facebook className="h-5 w-5" />
+                <Icon className="h-5 w-5" />
               </a>
-              <a
-                href="#"
-                className="w-10 h-10  bg-pink-600 text-white rounded-full flex items-center justify-center transition"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
+                })
+              }
             </div>
           </div>
 
@@ -116,22 +142,16 @@ export const Footer = () => {
               Legal
             </h3>
             <ul className="space-y-2">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-blue-600 transition text-sm"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-blue-600 transition text-sm"
-                >
-                  Terms of Service
-                </a>
-              </li>
+              {Legal_Item_Links.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.link}
+                    className="text-gray-600 hover:text-blue-600 transition text-sm"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

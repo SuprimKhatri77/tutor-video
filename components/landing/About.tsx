@@ -12,13 +12,14 @@ export const About = () => {
               <div className="relative">
                 <div className="w-60 sm:w-72 h-60 sm:h-72 rounded-full overflow-hidden border-8 border-white shadow-2xl relative">
                   <div className="absolute inset-0 bg-linear-to-b from-black via-red-600 to-yellow-400"></div>
-                  <Image
+                  {/* NOTE:  replace with image provided by vikas dai */}
+                  {/* <Image
                     src="https://p19-common-sign-useastred.tiktokcdn-eu.com/tos-useast2a-avt-0068-euttp/5d7431fe4cbc45dadde899954e434e7f~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=b45fa506&x-expires=1767873600&x-signature=oVZ6D6oiYbCt95JRVFS7mn%2BckCw%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my"
                     alt="German Tutor"
                     width={400}
                     height={400}
                     className="w-full h-full object-cover relative z-10"
-                  />
+                  /> */}
                 </div>
                 {/* Verified Badge */}
                 <div className="absolute bottom-2 right-2 bg-blue-500 rounded-full p-2 shadow-lg">
