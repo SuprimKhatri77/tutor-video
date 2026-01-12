@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "p19-common-sign-useastred.tiktokcdn-eu.com",
       },
+      {
+        protocol: "https",
+        hostname: "uzgancyz1g.ufs.sh",
+      },
     ],
   },
 };
