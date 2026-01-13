@@ -4,23 +4,31 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import Link from "next/link";
+import { UpcomingEventsSelectType } from "@/db/schema";
+import { useMutation } from "@tanstack/react-query";
+import { editEvent } from "@/actions/upcoming-events/edit-event";
+import {
+  EditEventInput,
+  EditEventResponse,
+} from "@/utils/validators/event.validator";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
+import { DeleteEventAlertDialog } from "./delete-event-alert-dialog";
+import { cn } from "@/lib/utils";
+import { FieldError } from "@/components/ui/field";
 
-export default function EventDetailPage() {
-  const mockEvent = {
-    id: "550e8400-e29b-41d4-a716-446655440000",
-    title: "Annual Tech Conference 2024",
-    body: "Join us for the biggest tech conference of the year! Network with industry leaders, attend workshops, and discover the latest innovations in technology. This event features keynote speakers from top companies, hands-on demos, and interactive sessions covering AI, blockchain, cloud computing, and more.",
-    eventDate: new Date("2024-12-15T14:00:00"),
-    createdAt: new Date("2024-01-10T10:30:00"),
-    updatedAt: new Date("2024-01-12T15:45:00"),
-  };
-
+type Props = {
+  event: UpcomingEventsSelectType;
+};
+export default function EventDetailPage({ event }: Props) {
   const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState(mockEvent.title);
-  const [body, setBody] = useState(mockEvent.body);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [title, setTitle] = useState(event.title);
+  const [body, setBody] = useState(event.body);
   const [eventDate, setEventDate] = useState(
-    mockEvent.eventDate ? mockEvent.eventDate.toISOString().slice(0, 16) : ""
+    event.eventDate ? event.eventDate.toISOString().slice(0, 16) : ""
   );
+  const [errors, setErrors] = useState<EditEventResponse["errors"]>();
 
   const formatDate = (date: Date) => {
     if (!date) return "Date TBA";
@@ -29,8 +37,8 @@ export default function EventDetailPage() {
       year: "numeric",
       month: "long",
       day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      // hour: "2-digit",
+      // minute: "2-digit",
     }).format(new Date(date));
   };
 
@@ -40,27 +48,55 @@ export default function EventDetailPage() {
       year: "numeric",
       month: "short",
       day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      // hour: "2-digit",
+      // minute: "2-digit",
     }).format(new Date(date));
   };
 
-  const handleSave = () => {
-    console.log("Saving:", { title, body, eventDate });
-    setIsEditing(false);
-  };
-
   const handleCancel = () => {
-    setTitle(mockEvent.title);
-    setBody(mockEvent.body);
+    setTitle(event.title);
+    setBody(event.body);
     setEventDate(
-      mockEvent.eventDate ? mockEvent.eventDate.toISOString().slice(0, 16) : ""
+      event.eventDate ? event.eventDate.toISOString().slice(0, 16) : ""
     );
     setIsEditing(false);
   };
 
+  const { mutate, isPending, reset } = useMutation({
+    mutationFn: async (input: EditEventInput) => {
+      const result = await editEvent(input);
+      return result;
+    },
+    onSuccess: (result) => {
+      if (!result.success) {
+        if (result.errors) {
+          setErrors(result.errors);
+        }
+        setIsEditing(false);
+        toast.error(result.message);
+        setErrors({});
+        reset();
+        return;
+      }
+      toast.success(result.message);
+      reset();
+    },
+    onError: (error) => {
+      toast.error(error.message || "Something went wrong.");
+    },
+  });
+
+  const handleSave = () => {
+    mutate({
+      title,
+      body,
+      eventDate: eventDate ? new Date(eventDate) : undefined,
+      id: event.id,
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-white">
+    <div inert={isPending} className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-6 py-12">
         <Link
           href="/admin/events"
@@ -79,11 +115,14 @@ export default function EventDetailPage() {
                   Event Date
                 </label>
                 <Input
-                  type="datetime-local"
+                  type="date"
                   value={eventDate}
                   onChange={(e) => setEventDate(e.target.value)}
                   className="border-2 border-black focus:ring-2 focus:ring-black"
                 />
+                {errors?.properties?.eventDate && (
+                  <FieldError>{errors.properties.eventDate[0]}</FieldError>
+                )}
               </div>
 
               {/* Edit Title */}
@@ -96,6 +135,9 @@ export default function EventDetailPage() {
                   onChange={(e) => setTitle(e.target.value)}
                   className="border-2 border-black text-xl font-bold focus:ring-2 focus:ring-black"
                 />
+                {errors?.properties?.title && (
+                  <FieldError>{errors.properties.title[0]}</FieldError>
+                )}
               </div>
 
               {/* Edit Body */}
@@ -109,15 +151,19 @@ export default function EventDetailPage() {
                   rows={8}
                   className="border-2 border-black text-lg focus:ring-2 focus:ring-black"
                 />
+                {errors?.properties?.body && (
+                  <FieldError>{errors.properties.body[0]}</FieldError>
+                )}
               </div>
 
               {/* Save/Cancel Buttons */}
               <div className="flex gap-3 pt-4">
                 <Button
                   onClick={handleSave}
+                  disabled={isPending}
                   className="bg-black text-white px-6 py-2 font-bold hover:bg-gray-800 border-2 border-black"
                 >
-                  Save Changes
+                  {isPending ? <Spinner /> : "Save Changes"}
                 </Button>
                 <Button
                   onClick={handleCancel}
@@ -131,9 +177,9 @@ export default function EventDetailPage() {
           ) : (
             <div>
               {/* Event Date Badge */}
-              {mockEvent.eventDate && (
+              {event.eventDate && (
                 <div className="inline-block bg-black text-white px-4 py-2 text-sm font-bold mb-4">
-                  {formatDate(mockEvent.eventDate)}
+                  {formatDate(event.eventDate)}
                 </div>
               )}
 
@@ -149,12 +195,12 @@ export default function EventDetailPage() {
               <div className="flex items-center gap-6 text-sm text-gray-600 mb-6 pb-6 border-b border-gray-200">
                 <div>
                   <span className="font-semibold text-black">Created:</span>{" "}
-                  {formatTimestamp(mockEvent.createdAt)}
+                  {formatTimestamp(event.createdAt)}
                 </div>
-                {mockEvent.updatedAt && (
+                {event.updatedAt && (
                   <div>
                     <span className="font-semibold text-black">Updated:</span>{" "}
-                    {formatTimestamp(mockEvent.updatedAt)}
+                    {formatTimestamp(event.updatedAt)}
                   </div>
                 )}
               </div>
@@ -168,6 +214,7 @@ export default function EventDetailPage() {
                   Edit
                 </Button>
                 <Button
+                  onClick={() => setShowDeleteDialog(true)}
                   variant="outline"
                   className="bg-white text-black px-6 py-2 font-bold border-2 border-black hover:bg-black hover:text-white"
                 >
@@ -177,6 +224,13 @@ export default function EventDetailPage() {
             </div>
           )}
         </div>
+      </div>
+      <div className={cn(!showDeleteDialog && "hidden")}>
+        <DeleteEventAlertDialog
+          eventId={event.id}
+          open={showDeleteDialog}
+          onOpenChange={setShowDeleteDialog}
+        />
       </div>
     </div>
   );

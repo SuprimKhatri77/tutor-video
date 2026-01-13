@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ImageUploadButton } from "@/components/image-upload-btn";
 import { createBlog } from "@/actions/blogs/create-blog";
 import { toast } from "sonner";
-import { CreateBlogResponse } from "@/utils/validators/blog.schema";
+import { CreateBlogResponse } from "@/utils/validators/blog.validator";
 import { FieldError } from "@/components/ui/field";
 
 type BlogFormData = {
