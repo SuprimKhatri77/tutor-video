@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 const MotionLink = motion(Link);
-// for nav items keep the link as relative path , ( don't use / infront of link ) if use: it break the active nav item 
+
 const NAV_ITEMS: { label: string; link: string }[] = [
   {
     label: "Home",
@@ -21,6 +21,10 @@ const NAV_ITEMS: { label: string; link: string }[] = [
     label: "Contact",
     link: "contact",
   },
+  {
+    label: "Blogs",
+    link: "blogs",
+  },
 ];
 
 export const Header = () => {
@@ -28,9 +32,8 @@ export const Header = () => {
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const location = usePathname()
+  const location = usePathname();
   const currentPath = location.split("/")[1];
-  console.log(currentPath)
   return (
     <motion.header
       initial={{ y: -70 }}
@@ -49,8 +52,15 @@ export const Header = () => {
           {NAV_ITEMS.map((nav) => (
             <Link
               key={nav.label}
-              href={nav.link}
-              className={cn("text-gray-800 font-medium hover:text-blue-500 transition", nav.link.toLowerCase() === currentPath.toLowerCase() ? "text-blue-600": nav.label  === "Home" && currentPath === "" && "text-blue-600")}
+              href={`/${nav.link}`}
+              className={cn(
+                "text-gray-800 font-medium hover:text-blue-500 transition",
+                nav.link.toLowerCase() === currentPath.toLowerCase()
+                  ? "text-blue-600"
+                  : nav.label === "Home" &&
+                      currentPath === "" &&
+                      "text-blue-600"
+              )}
             >
               {nav.label}
               <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"></span>
@@ -69,33 +79,39 @@ export const Header = () => {
 
       {/* Mobile Menu */}
       <AnimatePresence mode="wait">
-
-      {isOpen && (
-        <motion.div
-          initial={{ x: 200, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{x:200, opacity:0}}
-          transition={{ duration: 0.4, ease: "easeIn" }}
-          className="md:hidden bg-white/80  shadow-md"
-          key={"navbar"}
-        >
-          <nav className="flex flex-col items-center space-y-4 py-4 min-h-screen w-1/2 ml-auto backdrop-blur-sm">
-            {NAV_ITEMS.map((nav, idx) => (
-              <MotionLink
-                initial={{ opacity: 0, y: -5 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1 * idx, ease: "easeIn" }}
-                key={nav.label}
-                href={nav.link}
-                className={cn("text-gray-800 font-medium hover:text-blue-500 transition", nav.link.toLowerCase() === currentPath.toLowerCase() ? "text-blue-600": nav.label  === "Home" && currentPath === "" && "text-blue-600")}
-                onClick={() => setIsOpen(false)}
-              >
-                {nav.label}
-              </MotionLink>
-            ))}
-          </nav>
-        </motion.div>
-      )}
+        {isOpen && (
+          <motion.div
+            initial={{ x: 200, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 200, opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeIn" }}
+            className="md:hidden bg-white/80  shadow-md"
+            key={"navbar"}
+          >
+            <nav className="flex flex-col items-center space-y-4 py-4 min-h-screen w-1/2 ml-auto backdrop-blur-sm">
+              {NAV_ITEMS.map((nav, idx) => (
+                <MotionLink
+                  initial={{ opacity: 0, y: -5 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.1 * idx, ease: "easeIn" }}
+                  key={nav.label}
+                  href={`/${nav.link}`}
+                  className={cn(
+                    "text-gray-800 font-medium hover:text-blue-500 transition",
+                    nav.link.toLowerCase() === currentPath.toLowerCase()
+                      ? "text-blue-600"
+                      : nav.label === "Home" &&
+                          currentPath === "" &&
+                          "text-blue-600"
+                  )}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {nav.label}
+                </MotionLink>
+              ))}
+            </nav>
+          </motion.div>
+        )}
       </AnimatePresence>
     </motion.header>
   );

@@ -3,11 +3,12 @@ import { useState } from "react";
 import Image from "next/image";
 import { ImageUploadButton } from "@/components/image-upload-btn";
 import { toast } from "sonner";
-import { CreateBlogResponse } from "@/utils/validators/blog.schema";
 import { FieldError } from "@/components/ui/field";
 import { BlogsSelectType } from "@/db/schema";
 import { editBlog } from "@/actions/blogs/edit-blog";
 import { useRouter } from "next/navigation";
+import { CreateBlogResponse } from "@/utils/validators/blog.validator";
+import { useQueryClient } from "@tanstack/react-query";
 
 type BlogFormData = {
   title: string;
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export default function EditBlogPage({ blog }: Props) {
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState<BlogFormData>({
     title: blog.title,
     description: blog.description,
@@ -63,6 +65,8 @@ export default function EditBlogPage({ blog }: Props) {
         setIsSubmitting(false);
         return;
       }
+      queryClient.invalidateQueries({ queryKey: ["all-blogs-client"] });
+      queryClient.invalidateQueries({ queryKey: ["blog-detail", blog.id] });
       toast.success(result.message);
       router.push(`/admin/blogs/${blog.id}`);
     } catch {

@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import { Button } from "@/components/ui/button";
 
 import { Separator } from "@/components/ui/separator";
 import {
@@ -6,6 +7,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export default function AdminLayout({
   children,
@@ -23,6 +25,9 @@ export default function AdminLayout({
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
+            <Button variant="outline">
+              <Link href="/">Go to Homepage</Link>
+            </Button>
           </div>
         </header>
         {children ? (
