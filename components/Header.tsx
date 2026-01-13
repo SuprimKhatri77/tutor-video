@@ -76,7 +76,7 @@ export const Header = () => {
           animate={{ x: 0, opacity: 1 }}
           exit={{x:200, opacity:0}}
           transition={{ duration: 0.4, ease: "easeIn" }}
-          className="md:hidden bg-white/80  shadow-md"
+          className="md:hidden bg-white/20  shadow-md"
           key={"navbar"}
         >
           <nav className="flex flex-col items-center space-y-4 py-4 min-h-screen w-1/2 ml-auto backdrop-blur-sm">

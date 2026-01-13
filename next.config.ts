@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    typedEnv: true
+  }
 };
 
 export default nextConfig;
