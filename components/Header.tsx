@@ -16,6 +16,10 @@ const NAV_ITEMS: { label: string; link: string }[] = [
     label: "Videos",
     link: "videos",
   },
+  {
+    label: "Events",
+    link: "upcoming-events",
+  },
 
   {
     label: "Contact",
