@@ -4,9 +4,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
-export const  UpcomingEventsDialogSkeleton = ({ open }: { open: boolean }) => {
+export const UpcomingEventsDialogSkeleton = ({ open }: { open: boolean }) => {
   return (
     <Dialog open={open}>
       <DialogContent
@@ -20,9 +20,8 @@ export const  UpcomingEventsDialogSkeleton = ({ open }: { open: boolean }) => {
       >
         {/* Header */}
         <DialogHeader className="mb-6 text-center space-y-3">
-            <DialogTitle className="text-2xl font-bold animate-pulse rounded-md">
-           
-          <div className="h-7 w-56 mx-auto rounded bg-muted animate-pulse" />
+          <DialogTitle className="text-2xl font-bold animate-pulse rounded-md">
+            <div className="h-7 w-56 mx-auto rounded bg-muted animate-pulse" />
           </DialogTitle>
           <div className="h-4 w-72 mx-auto rounded bg-muted animate-pulse" />
         </DialogHeader>
@@ -53,5 +52,5 @@ export const  UpcomingEventsDialogSkeleton = ({ open }: { open: boolean }) => {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

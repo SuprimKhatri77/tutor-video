@@ -1,67 +1,53 @@
-"use client"
-
-import { useEffect, useState } from "react"
+"use client";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import {  motion } from "framer-motion"
-import { UpcomingEventsDialogSkeleton } from "./UpcomingDialogSkeleton"
-import { getEvents } from "@/app/upcoming-events/page"
-
-export const events: EventType[] = [{"title":"New A1 Batch Starting","date":"15 March 2026","description":"Beginner-friendly German language batch focusing on basic grammar, vocabulary, and speaking practice."},{"title":"Free Demo Class","date":"10 March 2026","description":"Join a free live demo session to understand the teaching style and course structure."},{"title":"A2 Grammar Revision Workshop","date":"22 March 2026","description":"Intensive revision session covering key A2 grammar topics with practical examples."}]
-export type EventType = {title: string, date: string, description: string}
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { getXEvents } from "@/helpers/events/get-x-events";
 
 export default function UpcomingEventsDialog() {
-  const [open, setOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [events, setEvents] = useState<EventType[]>([])
-  const router = useRouter()
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const shown = localStorage.getItem("popup_shown")
+    const shown = localStorage.getItem("popup_shown");
+
     if (!shown) {
-      localStorage.setItem("popup_shown", "1")
+      localStorage.setItem("popup_shown", "1");
       setTimeout(() => {
-        setOpen(true)
-      }, 0);
+        setOpen(true);
+      }, 1000);
     }
-  }, [])
+  }, []);
 
+  const formatTime = (dateString: string | Date) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
 
-  // Fetch events from server
-  useEffect(() => {
-    async function fetchEvents() {
-      try {
-        setIsLoading(true)
-        const data: EventType[] = await getEvents() // call the func to fetch the events data 
-        setEvents(data)
-      } catch (err) {
-        console.error("Failed to fetch events:", err)
-        setEvents([])
-      } finally {
-        setIsLoading(false)
-      }
-    }
+  const { data: events, isPending } = useQuery({
+    queryKey: ["latest-events"],
+    queryFn: () => getXEvents(2).then((res) => res),
+    staleTime: 1000 * 60 * 60,
+  });
 
-    if (open) fetchEvents()
-  }, [open])
-
-  return ( 
-    <>
-    { isLoading ?  <UpcomingEventsDialogSkeleton open={true} /> : (
-      
+  return (
     <Dialog open={open} onOpenChange={setOpen}>
-    
-        {open && (
       <DialogContent
         className="
-         cursor-pointer
+          cursor-pointer
           max-w-2xl
           w-[95vw]
           max-h-[85vh]
@@ -69,6 +55,7 @@ export default function UpcomingEventsDialog() {
           p-6
         "
       >
+        {/* Actual Header */}
         <DialogHeader className="mb-4 text-center">
           <DialogTitle className="text-2xl font-bold">
             Upcoming Events
@@ -77,56 +64,81 @@ export default function UpcomingEventsDialog() {
             Upcoming German language classes & sessions
           </p>
         </DialogHeader>
+        {isPending ? (
+          <>
+            {/* Skeleton Events */}
+            <div className="space-y-3">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="
+                    flex items-center justify-between
+                    rounded-lg border px-4 py-3
+                  "
+                >
+                  <div className="space-y-2">
+                    <div className="h-4 w-48 rounded bg-muted animate-pulse" />
+                    <div className="h-3 w-32 rounded bg-muted animate-pulse" />
+                  </div>
+                  <div className="h-4 w-4 rounded-full bg-muted animate-pulse" />
+                </div>
+              ))}
+            </div>
 
-        {/* Event List */}
-        <div className="space-y-3">
-          {events.length === 0 && (
-            <p className="text-center text-muted-foreground">
-              No upcoming events available.
-            </p>
-          )}
-
-          {events.slice(0,3).map((event, index) => (
-            <motion.div
-              initial={{opacity: 0}}
-              animate={{opacity: 1}}
-              transition={{duration: 0.6 * index}}
-              key={`${event.title}-is-coming`}
-              className="
-                flex items-center justify-between
-                rounded-lg border px-4 py-3
-                hover:bg-muted/40 transition
-              "
-                onClick={() => router.push("/upcoming-events")}
-
-            >
-              <div>
-                <p className="font-medium leading-tight">
-                  {event.title}
+            {/* Skeleton Footer */}
+            <DialogFooter className="pt-4">
+              <div className="h-9 w-28 rounded bg-muted animate-pulse" />
+            </DialogFooter>
+          </>
+        ) : (
+          <>
+            {/* Actual Event List */}
+            <div className="space-y-3">
+              {events && events.length === 0 && (
+                <p className="text-center text-muted-foreground">
+                  No upcoming events available.
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  {event.date}
-                </p>
-              </div>
+              )}
+              {events &&
+                events.length > 0 &&
+                events.map((event, index) => (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6 * index }}
+                    key={`${event.title}-is-coming`}
+                    className="
+                      flex items-center justify-between
+                      rounded-lg border px-4 py-3
+                      hover:bg-muted/40 transition
+                    "
+                    onClick={() => router.push("/upcoming-events")}
+                  >
+                    <div>
+                      <p className="font-medium leading-tight">{event.title}</p>
+                      {event.eventDate && (
+                        <p className="text-sm text-muted-foreground">
+                          {formatTime(event.eventDate)}
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+            </div>
 
-             
-            </motion.div>
-          ))}
-        </div>
-      <DialogFooter>
-         <Button
+            {/* Actual Footer */}
+            <DialogFooter>
+              <Button
                 size="sm"
-                className="bg-blue-600 text-white"
+                className="bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 ease-linear"
                 onClick={() => router.push("/upcoming-events")}
               >
                 See more
               </Button>
-      </DialogFooter>
-      </DialogContent>
+            </DialogFooter>
+          </>
         )}
-
+      </DialogContent>
     </Dialog>
-    )}
-   </>
-  )
+  );
 }

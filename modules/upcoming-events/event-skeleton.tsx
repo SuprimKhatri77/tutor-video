@@ -1,6 +1,6 @@
-import { Card, CardFooter, CardHeader } from "@/components/ui/card"
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 
-export default function Loading() {
+export default function EventSkeleton() {
   return (
     <div className="min-h-screen bg-background px-6 py-16 md:py-24">
       <div className="max-w-7xl mx-auto">
@@ -14,10 +14,7 @@ export default function Loading() {
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 3 }).map((_, index) => (
-            <Card
-              key={index}
-              className="flex flex-col h-full border-muted/60"
-            >
+            <Card key={index} className="flex flex-col h-full border-muted/60">
               <CardHeader className="space-y-4">
                 <div className="h-4 w-32 rounded bg-muted animate-pulse" />
                 <div className="h-6 w-full rounded bg-muted animate-pulse" />
@@ -33,5 +30,5 @@ export default function Loading() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -76,6 +76,7 @@ export function CreateEventDialog({ onOpen, onOpenChange }: Props) {
             );
           }
         );
+        setFormData({ title: "", body: "", eventDate: "" });
         toast.success(result.message);
         reset();
         return;

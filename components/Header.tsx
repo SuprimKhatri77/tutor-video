@@ -83,7 +83,6 @@ export const Header = () => {
 
       {/* Mobile Menu */}
       <AnimatePresence mode="wait">
-<<<<<<< HEAD
         {isOpen && (
           <motion.div
             initial={{ x: 200, opacity: 0 }}
@@ -117,35 +116,6 @@ export const Header = () => {
             </nav>
           </motion.div>
         )}
-=======
-
-      {isOpen && (
-        <motion.div
-          initial={{ x: 200, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{x:200, opacity:0}}
-          transition={{ duration: 0.4, ease: "easeIn" }}
-          className="md:hidden bg-white/20  shadow-md"
-          key={"navbar"}
-        >
-          <nav className="flex flex-col items-center space-y-4 py-4 min-h-screen w-1/2 ml-auto backdrop-blur-sm">
-            {NAV_ITEMS.map((nav, idx) => (
-              <MotionLink
-                initial={{ opacity: 0, y: -5 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1 * idx, ease: "easeIn" }}
-                key={nav.label}
-                href={nav.link}
-                className={cn("text-gray-800 font-medium hover:text-blue-500 transition", nav.link.toLowerCase() === currentPath.toLowerCase() ? "text-blue-600": nav.label  === "Home" && currentPath === "" && "text-blue-600")}
-                onClick={() => setIsOpen(false)}
-              >
-                {nav.label}
-              </MotionLink>
-            ))}
-          </nav>
-        </motion.div>
-      )}
->>>>>>> feature/upcoming
       </AnimatePresence>
     </motion.header>
   );
