@@ -3,6 +3,7 @@ import { ChevronRight, MessageCircle } from "lucide-react";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
 import { LocalTypewriter } from "../TypingComponent";
+import UpcomingEventsDialog from "./Upcoming";
 
 export const Hero = () => {
   return (
@@ -11,6 +12,7 @@ export const Hero = () => {
       className="pt-36 pb-10 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center flex-col 
     "
     >
+      <UpcomingEventsDialog />
       <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-8 z-30">
         {/* Heading */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900">
