@@ -85,7 +85,7 @@ export default function CreateBlogPage() {
           <h1 className="text-4xl font-bold text-black mb-2">
             Create New Blog
           </h1>
-          <p className="text-gray-600">DreamWise Group</p>
+          <p className="text-gray-600">TutorDai</p>
         </div>
 
         {/* Form */}
