@@ -169,7 +169,7 @@ export function BlogList() {
                       </p>
 
                       <Link
-                        href={`/blogs/${blog.id}`}
+                        href={`/blogs/${blog.slug}`}
                         className="inline-flex items-center mt-8 text-black border-b-2 border-black pb-1 hover:opacity-60 transition-opacity"
                       >
                         <span className="tracking-wide">Read Article</span>

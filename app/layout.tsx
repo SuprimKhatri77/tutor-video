@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     default: "Tutordai | C1 Certified German Tutor in Nepal",
     template: "%s | Tutordai",
   },
+  icons: {
+    icon: [{ url: "/favicon.ico", href: "/favicon.ico" }],
+  },
   description:
     "Tutordai offers C1 certified German language classes in Nepal. Learn German with an experienced tutor specializing in exam preparation, grammar mastery, and study/work in Germany.",
   keywords: [
@@ -47,7 +50,7 @@ export const metadata: Metadata = {
     siteName: "Tutordai",
     images: [
       {
-        url: "https://www.tutordai.com//og-image.jpg",
+        url: "https://www.tutordai.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Tutordai German Tutor",
@@ -59,7 +62,7 @@ export const metadata: Metadata = {
     title: "Tutordai | C1 Certified German Tutor",
     description:
       "C1 certified German tutor helping Nepali students study and work in Germany.",
-    images: ["https://www.tutordai.com//og-image.jpg"],
+    images: ["https://www.tutordai.com/og-image.jpg"],
   },
   robots: {
     index: true,

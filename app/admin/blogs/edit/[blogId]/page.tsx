@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { requireAdmin } from "@/helpers/auth/require-admin";
-import EditBlogPage from "@/modules/admin/blogs/edit-blog";
+import { EditBlogPage } from "@/modules/admin/blogs/edit-blog";
 
 export default async function Page({
   params,

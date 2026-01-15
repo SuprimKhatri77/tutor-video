@@ -94,6 +94,7 @@ export const blogs = pgTable("blogs", {
   authorId: text("author_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
+  slug: text("slug").notNull().unique(),
   images: text("images").array(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

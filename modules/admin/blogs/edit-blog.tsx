@@ -21,7 +21,7 @@ type Props = {
   blog: BlogsSelectType;
 };
 
-export default function EditBlogPage({ blog }: Props) {
+export function EditBlogPage({ blog }: Props) {
   const queryClient = useQueryClient();
   const [formData, setFormData] = useState<BlogFormData>({
     title: blog.title,

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 const MotionLink = motion(Link);
 
 const NAV_ITEMS: { label: string; link: string }[] = [
@@ -45,10 +46,15 @@ export const Header = () => {
       transition={{ duration: 0.3, ease: "easeIn" }}
       className="fixed w-full z-50 backdrop-blur-md bg-white/30 shadow-md"
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 h-16">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-0 h-16">
         {/* Logo / Name */}
-        <Link href="/" className="text-2xl font-bold ">
-          TutorDai
+        <Link href="/" className=" text-2xl font-bold ">
+          <Image
+            src="/logo-transparent.png"
+            alt="TutorDai"
+            width={100}
+            height={100}
+          />
         </Link>
 
         {/* Desktop NavBar */}

@@ -3,14 +3,23 @@
 import { db } from "@/db";
 import { BlogsSelectType } from "@/db/schema";
 
-export async function getBlogById(
-  blogId: string
-): Promise<BlogsSelectType | null> {
-  console.log("i got triggered and received blog id: ", blogId);
-  const blog = await db.query.blogs.findFirst({
-    where: (fields, { eq }) => eq(fields.id, blogId),
-  });
-  console.log("blog", blog);
-  if (!blog) return null;
-  return blog;
+export async function getBlogById(param: {
+  blogId?: string;
+  slug?: string;
+}): Promise<BlogsSelectType | null> {
+  const { slug, blogId } = param;
+  if (slug) {
+    const blog = await db.query.blogs.findFirst({
+      where: (fields, { eq }) => eq(fields.slug, slug),
+    });
+    if (!blog) return null;
+    return blog;
+  } else if (blogId) {
+    const blog = await db.query.blogs.findFirst({
+      where: (fields, { eq }) => eq(fields.id, blogId),
+    });
+    if (!blog) return null;
+    return blog;
+  }
+  return null;
 }

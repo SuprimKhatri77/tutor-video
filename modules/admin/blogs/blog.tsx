@@ -10,7 +10,7 @@ const formatDate = (dateString: Date | string): string => {
   });
 };
 export async function Blog({ blogId }: { blogId: string }) {
-  const blog = await getBlogById(blogId);
+  const blog = await getBlogById({ blogId });
   return blog ? (
     <>
       {/* Article Header */}

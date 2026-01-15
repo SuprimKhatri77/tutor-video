@@ -2,6 +2,7 @@
 
 import { db } from "@/db";
 import { blogs } from "@/db/schema";
+import { generateUniqueSlug } from "@/helpers/slug/generate-unique-slug";
 import { auth } from "@/utils/auth";
 import {
   CreateBlog,
@@ -40,9 +41,10 @@ export async function createBlog(
       },
     };
   }
-
   try {
-    await db.insert(blogs).values({ ...data, authorId: session.user.id });
+    const slug = generateUniqueSlug(data.title);
+    console.log("blog slug: ", slug);
+    await db.insert(blogs).values({ ...data, slug, authorId: session.user.id });
     return { success: true, message: "Blog created successfully." };
   } catch (error) {
     console.log("error: ", error);

@@ -8,6 +8,13 @@
       "when": 1768222417648,
       "tag": "0000_flashy_tattoo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1768480055896,
+      "tag": "0001_loud_talos",
+      "breakpoints": true
     }
   ]
 }

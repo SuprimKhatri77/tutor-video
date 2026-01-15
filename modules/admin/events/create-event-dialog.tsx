@@ -129,8 +129,6 @@ export function CreateEventDialog({ onOpen, onOpenChange }: Props) {
               <Textarea
                 id="body"
                 name="body"
-                cols={7}
-                rows={10}
                 value={formData.body}
                 onChange={(e) =>
                   setFormData({ ...formData, body: e.target.value })

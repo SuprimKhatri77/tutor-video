@@ -1,8 +1,8 @@
 import z from "zod";
 
 export const createBlogSchema = z.object({
-  title: z.string(),
-  description: z.string(),
+  title: z.string().trim().min(1),
+  description: z.string().trim().min(5),
   images: z.array(z.string()).optional(),
 });
 

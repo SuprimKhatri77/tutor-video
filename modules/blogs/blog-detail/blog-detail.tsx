@@ -9,10 +9,10 @@ import { BlogError } from "./error-state";
 import { BlogNotFound } from "./blog-not-found";
 
 interface BlogDetailProps {
-  blogId: string;
+  slug: string;
 }
 
-export function BlogDetail({ blogId }: BlogDetailProps) {
+export function BlogDetail({ slug }: BlogDetailProps) {
   const {
     data: blog,
     isPending,
@@ -20,8 +20,8 @@ export function BlogDetail({ blogId }: BlogDetailProps) {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["blog-detail", blogId],
-    queryFn: () => getBlogById(blogId).then((res) => res),
+    queryKey: ["blog-detail", slug],
+    queryFn: () => getBlogById({ slug }).then((res) => res),
     staleTime: 1000 * 60 * 60,
   });
 
@@ -32,6 +32,46 @@ export function BlogDetail({ blogId }: BlogDetailProps) {
       month: "long",
       day: "numeric",
     });
+  };
+
+  // Split description into paragraphs
+  const splitDescription = (description: string) => {
+    // Split by double newlines first (paragraph breaks)
+    let paragraphs = description.split(/\n\n+/);
+
+    // If no double newlines, try single newlines
+    if (paragraphs.length === 1) {
+      paragraphs = description.split(/\n+/);
+    }
+
+    // If still one paragraph, try to split by sentences
+    if (paragraphs.length === 1) {
+      // Split by periods followed by space and capital letter
+      const sentences = description.match(/[^.!?]+[.!?]+/g) || [description];
+
+      // Group sentences into two halves
+      const midpoint = Math.ceil(sentences.length / 2);
+      return {
+        beforeImages: sentences.slice(0, midpoint).join(" ").trim(),
+        afterImages: sentences.slice(midpoint).join(" ").trim(),
+      };
+    }
+
+    // Split paragraphs roughly in half
+    const midpoint = Math.ceil(paragraphs.length / 2);
+    return {
+      beforeImages: paragraphs.slice(0, midpoint).join("\n\n").trim(),
+      afterImages: paragraphs.slice(midpoint).join("\n\n").trim(),
+    };
+  };
+
+  const renderParagraphs = (text: string) => {
+    const paragraphs = text.split(/\n+/);
+    return paragraphs.map((para, idx) => (
+      <p key={idx} className="text-gray-600 leading-relaxed mb-6">
+        {para}
+      </p>
+    ));
   };
 
   return (
@@ -90,93 +130,95 @@ export function BlogDetail({ blogId }: BlogDetailProps) {
             {blog.title}
           </h1>
 
-          {/* Description */}
-          <div className="text-xl text-gray-600 leading-relaxed mb-16 pb-16 border-b border-gray-200">
-            {blog.description}
-          </div>
+          {/* First Part of Description (Before Images) */}
+          {blog.images && blog.images.length > 0 ? (
+            <>
+              <div className="prose prose-lg max-w-none mb-16">
+                {renderParagraphs(
+                  splitDescription(blog.description).beforeImages
+                )}
+              </div>
 
-          {/* Images Gallery */}
-          {blog.images && blog.images.length > 0 && (
-            <div className="mb-16">
-              {blog.images.length === 1 && (
-                <div className="relative aspect-video bg-gray-100 overflow-hidden">
-                  <Image
-                    src={blog.images[0]}
-                    alt={blog.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 1024px"
-                    priority
-                  />
-                </div>
-              )}
-
-              {blog.images.length === 2 && (
-                <div className="grid grid-cols-2 gap-4">
-                  {blog.images.map((img, idx) => (
-                    <div
-                      key={idx}
-                      className="relative aspect-4/3 bg-gray-100 overflow-hidden"
-                    >
-                      <Image
-                        src={img}
-                        alt={`${blog.title} - Image ${idx + 1}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        priority={idx === 0}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {blog.images.length >= 3 && (
-                <div className="space-y-4">
+              {/* Images Gallery */}
+              <div className="mb-16">
+                {blog.images.length === 1 && (
                   <div className="relative aspect-video bg-gray-100 overflow-hidden">
                     <Image
                       src={blog.images[0]}
-                      alt={`${blog.title} - Featured`}
+                      alt={blog.title}
                       fill
                       className="object-cover"
                       sizes="(max-width: 1024px) 100vw, 1024px"
                       priority
                     />
                   </div>
+                )}
+
+                {blog.images.length === 2 && (
                   <div className="grid grid-cols-2 gap-4">
-                    {blog.images.slice(1).map((img, idx) => (
+                    {blog.images.map((img, idx) => (
                       <div
                         key={idx}
                         className="relative aspect-4/3 bg-gray-100 overflow-hidden"
                       >
                         <Image
                           src={img}
-                          alt={`${blog.title} - Image ${idx + 2}`}
+                          alt={`${blog.title} - Image ${idx + 1}`}
                           fill
                           className="object-cover"
                           sizes="(max-width: 768px) 100vw, 50vw"
+                          priority={idx === 0}
                         />
                       </div>
                     ))}
                   </div>
-                </div>
-              )}
+                )}
+
+                {blog.images.length >= 3 && (
+                  <div className="space-y-4">
+                    <div className="relative aspect-video bg-gray-100 overflow-hidden">
+                      <Image
+                        src={blog.images[0]}
+                        alt={`${blog.title} - Featured`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 1024px"
+                        priority
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      {blog.images.slice(1).map((img, idx) => (
+                        <div
+                          key={idx}
+                          className="relative aspect-4/3 bg-gray-100 overflow-hidden"
+                        >
+                          <Image
+                            src={img}
+                            alt={`${blog.title} - Image ${idx + 2}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Second Part of Description (After Images) */}
+              <div className="prose prose-lg max-w-none">
+                {renderParagraphs(
+                  splitDescription(blog.description).afterImages
+                )}
+              </div>
+            </>
+          ) : (
+            /* No Images - Show Full Description */
+            <div className="prose prose-lg max-w-none mb-16 pb-16">
+              {renderParagraphs(blog.description)}
             </div>
           )}
-
-          {/* Article Content Placeholder */}
-          <div className="prose prose-lg max-w-none">
-            <p className="text-gray-600 leading-relaxed mb-6">
-              This is where your full blog content would appear. The layout uses
-              a clean, readable typography system with generous whitespace and a
-              clear visual hierarchy.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              Each section flows naturally into the next, maintaining the
-              minimalist aesthetic while ensuring the content remains engaging
-              and easy to digest.
-            </p>
-          </div>
         </article>
       )}
 
