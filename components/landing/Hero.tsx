@@ -126,7 +126,7 @@ const LatestBlogCard = ({ blog }: { blog: BlogsSelectType }) => {
 
           {/* Action Buttons */}
           <div className="flex gap-2">
-            <Link href={`/blogs/${blog.id}`} className="flex-1">
+            <Link href={`/blogs/${blog.slug}`} className="flex-1">
               <button className="w-full bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition flex items-center justify-center gap-1.5">
                 Read Article
                 <ArrowRight className="w-4 h-4" />
