@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import Link from "next/link";
 import { UpcomingEventsSelectType } from "@/db/schema";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editEvent } from "@/actions/upcoming-events/edit-event";
 import {
   EditEventInput,
@@ -16,19 +16,23 @@ import { Spinner } from "@/components/ui/spinner";
 import { DeleteEventAlertDialog } from "./delete-event-alert-dialog";
 import { cn } from "@/lib/utils";
 import { FieldError } from "@/components/ui/field";
+import { useRouter } from "next/navigation";
 
 type Props = {
   event: UpcomingEventsSelectType;
 };
 export default function EventDetailPage({ event }: Props) {
+  const queryClient = useQueryClient();
+
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [title, setTitle] = useState(event.title);
   const [body, setBody] = useState(event.body);
   const [eventDate, setEventDate] = useState(
-    event.eventDate ? event.eventDate.toISOString().slice(0, 16) : ""
+    event.eventDate ? event.eventDate.toISOString().split("T")[0] : ""
   );
   const [errors, setErrors] = useState<EditEventResponse["errors"]>();
+  const router = useRouter();
 
   const formatDate = (date: Date) => {
     if (!date) return "Date TBA";
@@ -78,6 +82,9 @@ export default function EventDetailPage({ event }: Props) {
         reset();
         return;
       }
+      queryClient.invalidateQueries({ queryKey: ["all-events"] });
+      router.refresh();
+      setIsEditing(false);
       toast.success(result.message);
       reset();
     },

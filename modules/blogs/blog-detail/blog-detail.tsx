@@ -34,6 +34,13 @@ export function BlogDetail({ slug }: BlogDetailProps) {
     });
   };
 
+  // Check if description is long enough to split
+  const shouldSplitDescription = (description: string): boolean => {
+    // Don't split if less than 300 characters or less than 3 sentences
+    const sentenceCount = (description.match(/[.!?]+/g) || []).length;
+    return description.length >= 300 && sentenceCount >= 3;
+  };
+
   // Split description into paragraphs
   const splitDescription = (description: string) => {
     // Split by double newlines first (paragraph breaks)
@@ -68,7 +75,10 @@ export function BlogDetail({ slug }: BlogDetailProps) {
   const renderParagraphs = (text: string) => {
     const paragraphs = text.split(/\n+/);
     return paragraphs.map((para, idx) => (
-      <p key={idx} className="text-gray-600 leading-relaxed mb-6">
+      <p
+        key={idx}
+        className="text-gray-700 leading-[1.8] text-lg font-light tracking-wide mb-8 last:mb-0"
+      >
         {para}
       </p>
     ));
@@ -130,10 +140,13 @@ export function BlogDetail({ slug }: BlogDetailProps) {
             {blog.title}
           </h1>
 
-          {/* First Part of Description (Before Images) */}
-          {blog.images && blog.images.length > 0 ? (
+          {/* Content Layout - Smart Split */}
+          {blog.images &&
+          blog.images.length > 0 &&
+          shouldSplitDescription(blog.description) ? (
             <>
-              <div className="prose prose-lg max-w-none mb-16">
+              {/* First Part of Description (Before Images) */}
+              <div className="prose prose-lg max-w-none mb-16 pb-16 border-b border-gray-200">
                 {renderParagraphs(
                   splitDescription(blog.description).beforeImages
                 )}
@@ -142,7 +155,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
               {/* Images Gallery */}
               <div className="mb-16">
                 {blog.images.length === 1 && (
-                  <div className="relative aspect-video bg-gray-100 overflow-hidden">
+                  <div className="relative aspect-video bg-gray-100 overflow-hidden rounded-sm">
                     <Image
                       src={blog.images[0]}
                       alt={blog.title}
@@ -159,7 +172,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
                     {blog.images.map((img, idx) => (
                       <div
                         key={idx}
-                        className="relative aspect-4/3 bg-gray-100 overflow-hidden"
+                        className="relative aspect-4/3 bg-gray-100 overflow-hidden rounded-sm"
                       >
                         <Image
                           src={img}
@@ -176,7 +189,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
 
                 {blog.images.length >= 3 && (
                   <div className="space-y-4">
-                    <div className="relative aspect-video bg-gray-100 overflow-hidden">
+                    <div className="relative aspect-video bg-gray-100 overflow-hidden rounded-sm">
                       <Image
                         src={blog.images[0]}
                         alt={`${blog.title} - Featured`}
@@ -190,7 +203,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
                       {blog.images.slice(1).map((img, idx) => (
                         <div
                           key={idx}
-                          className="relative aspect-4/3 bg-gray-100 overflow-hidden"
+                          className="relative aspect-4/3 bg-gray-100 overflow-hidden rounded-sm"
                         >
                           <Image
                             src={img}
@@ -214,10 +227,81 @@ export function BlogDetail({ slug }: BlogDetailProps) {
               </div>
             </>
           ) : (
-            /* No Images - Show Full Description */
-            <div className="prose prose-lg max-w-none mb-16 pb-16">
-              {renderParagraphs(blog.description)}
-            </div>
+            /* Short Description or No Images - Show Everything Together */
+            <>
+              <div className="prose prose-lg max-w-none mb-16 pb-16 border-b border-gray-200">
+                {renderParagraphs(blog.description)}
+              </div>
+
+              {/* Images Gallery (if exists) */}
+              {blog.images && blog.images.length > 0 && (
+                <div className="mb-16">
+                  {blog.images.length === 1 && (
+                    <div className="relative aspect-video bg-gray-100 overflow-hidden rounded-sm">
+                      <Image
+                        src={blog.images[0]}
+                        alt={blog.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 1024px"
+                        priority
+                      />
+                    </div>
+                  )}
+
+                  {blog.images.length === 2 && (
+                    <div className="grid grid-cols-2 gap-4">
+                      {blog.images.map((img, idx) => (
+                        <div
+                          key={idx}
+                          className="relative aspect-4/3 bg-gray-100 overflow-hidden rounded-sm"
+                        >
+                          <Image
+                            src={img}
+                            alt={`${blog.title} - Image ${idx + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            priority={idx === 0}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {blog.images.length >= 3 && (
+                    <div className="space-y-4">
+                      <div className="relative aspect-video bg-gray-100 overflow-hidden rounded-sm">
+                        <Image
+                          src={blog.images[0]}
+                          alt={`${blog.title} - Featured`}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1024px) 100vw, 1024px"
+                          priority
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        {blog.images.slice(1).map((img, idx) => (
+                          <div
+                            key={idx}
+                            className="relative aspect-4/3 bg-gray-100 overflow-hidden rounded-sm"
+                          >
+                            <Image
+                              src={img}
+                              alt={`${blog.title} - Image ${idx + 2}`}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
           )}
         </article>
       )}
