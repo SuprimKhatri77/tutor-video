@@ -46,7 +46,7 @@ export const Header = () => {
       transition={{ duration: 0.3, ease: "easeIn" }}
       className="fixed w-full z-50 backdrop-blur-md bg-white/30 shadow-md"
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-0 h-16">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-2 h-16">
         {/* Logo / Name */}
         <Link href="/" className=" text-2xl font-bold ">
           <Image
@@ -80,7 +80,7 @@ export const Header = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-gray-800 focus:outline-none transition-all ease-in duration-200"
+          className="md:hidden  text-gray-800 focus:outline-none transition-all ease-in duration-200"
           onClick={toggleMenu}
         >
           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
