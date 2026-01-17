@@ -65,7 +65,7 @@ export function AllEvents() {
                 {/* See More Link */}
                 <Link
                   href={`/admin/events/${event.id}`}
-                  className="inline-block bg-black text-white px-4 py-2 text-sm font-bold hover:bg-gray-800 transition-colors"
+                  className="inline-block bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 text-sm font-bold  transition-colors"
                 >
                   See More →
                 </Link>
