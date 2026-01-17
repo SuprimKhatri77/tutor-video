@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import {
+  ChartAreaIcon,
   ClockIcon,
   DraftingCompass,
   GalleryVerticalEnd,
@@ -29,6 +30,12 @@ const data = {
     },
   ],
   navMain: [
+    {
+      title: "Dashboard",
+      url: "/admin/dashboard",
+      icon: ChartAreaIcon,
+      isActive: true,
+    },
     {
       title: "Blogs",
       url: "/admin/blogs",
