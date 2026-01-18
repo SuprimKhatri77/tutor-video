@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  ChartAreaIcon,
-  ClockIcon,
-  DraftingCompass,
-  GalleryVerticalEnd,
-  NotebookPenIcon,
-} from "lucide-react";
+import { ChartAreaIcon, ClockIcon, NotebookPenIcon } from "lucide-react";
 
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
@@ -62,16 +56,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        {isPending ? (
-          <div className="flex items-center space-x-4">
-            <Skeleton className="w-full h-full rounded-full" />
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-62.5" />
-              <Skeleton className="h-4 w-62.5" />
+        {isPending || !session ? (
+          <div className="flex items-center gap-1 py-2">
+            <Skeleton className="w-8 h-8 rounded-full" />
+            <div className="flex flex-col gap-1 flex-1">
+              <Skeleton className="h-4 w-1/2" />
+              <Skeleton className="h-4 w-full" />
             </div>
           </div>
         ) : (
-          session && <NavUser user={session.user} />
+          <NavUser user={session.user} />
         )}
       </SidebarFooter>
       <SidebarRail />

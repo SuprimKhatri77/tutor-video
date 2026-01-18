@@ -14,7 +14,6 @@ import { headers } from "next/headers";
 import z from "zod";
 
 const adminEmails = process.env.ADMIN_EMAILS?.split(",") ?? [];
-console.log("admin emails: ", adminEmails);
 
 export async function signup(data: Signup): Promise<SignupResponse> {
   if (!adminEmails.includes(data.email)) {

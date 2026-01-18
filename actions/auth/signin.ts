@@ -11,7 +11,6 @@ import { headers } from "next/headers";
 import z from "zod";
 
 const adminEmails = process.env.ADMIN_EMAILS?.split(",") ?? [];
-console.log("admin emails: ", adminEmails);
 export async function signin(data: Signin): Promise<SigninResponse> {
   if (!adminEmails.includes(data.email)) {
     return { success: false, message: "User is not an admin." };
