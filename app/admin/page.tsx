@@ -11,7 +11,10 @@ export default async function Page() {
     await auth.api.signOut({ headers: await headers() });
     redirect("/");
   }
-  if (!session.user.role || session.user.role !== "admin") redirect("/");
+  if (!session.user.role || session.user.role !== "admin") {
+    await auth.api.signOut({ headers: await headers() });
+    redirect("/");
+  }
 
   redirect("/admin/blogs");
 }
