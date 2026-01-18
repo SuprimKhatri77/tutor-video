@@ -17,6 +17,8 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export function NavMain({
   items,
@@ -32,6 +34,8 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const path = usePathname()
+  
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -45,7 +49,7 @@ export function NavMain({
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton asChild tooltip={item.title}>
-                  <Link href={item.url}>
+                  <Link href={item.url} className={cn(item.url === path && "text-blue-600")}>
                     {item.icon && <item.icon size={20} />}
                     <span className="group-[.collapsed]:hidden">
                       {item.title}

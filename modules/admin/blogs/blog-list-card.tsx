@@ -60,7 +60,7 @@ export async function Blogs() {
           {/* See More Button */}
           <Link
             href={`/admin/blogs/${blog.id}`}
-            className="inline-block px-6 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors"
+            className="inline-block px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 font-semibold  transition-colors"
           >
             See More →
           </Link>
