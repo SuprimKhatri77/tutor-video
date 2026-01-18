@@ -56,7 +56,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        {isPending || !session ? (
+        {isPending ? (
           <div className="flex items-center gap-1 py-2">
             <Skeleton className="w-8 h-8 rounded-full" />
             <div className="flex flex-col gap-1 flex-1">
@@ -65,7 +65,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </div>
           </div>
         ) : (
-          <NavUser user={session.user} />
+          session && <NavUser user={session.user} />
         )}
       </SidebarFooter>
       <SidebarRail />
