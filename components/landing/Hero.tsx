@@ -4,7 +4,6 @@ import {
   MessageCircle,
   ArrowRight,
   Calendar,
-  BookOpen,
 } from "lucide-react";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
@@ -52,22 +51,6 @@ const BlogError = () => (
           View All Blogs
         </button>
       </Link>
-    </div>
-  </div>
-);
-
-// No Blogs Component
-const NoBlogs = () => (
-  <div className="w-full">
-    <div className="bg-linear-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-xl p-12 text-center">
-      <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-        <BookOpen className="w-8 h-8 text-gray-400" />
-      </div>
-      <h3 className="text-2xl font-bold text-gray-900 mb-2">No Articles Yet</h3>
-      <p className="text-gray-600 leading-relaxed max-w-sm mx-auto">
-        We&apos;re working on creating valuable content for you. Check back soon
-        for insightful articles about learning German!
-      </p>
     </div>
   </div>
 );
@@ -159,8 +142,78 @@ export const Hero = () => {
   // Determine if we should show the blog layout (2 columns)
   const shouldShowBlogLayout = isPending || (blog && blog.blogs.length > 0);
   const hasBlog = !isPending && !isError && blog && blog.blogs.length > 0;
-  const hasNoBlog = !isPending && !isError && blog && blog.blogs.length === 0;
 
+  // If no blog and not loading, show original centered layout
+  if (!isPending && !isError && (!blog || blog.blogs.length === 0)) {
+    return (
+      <section
+        id="home"
+        className="pt-36 pb-10 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center flex-col"
+      >
+        <UpcomingEventsDialog />
+        <div className="max-w-4xl mx-auto flex flex-col items-center text-center space-y-8 z-30">
+          {/* Heading */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900">
+            Master German from <span className="text-blue-600">Nepal</span>
+            <br />
+            Your Journey to{" "}
+            <LocalTypewriter
+              text={"Germany"}
+              className="text-4xl sm:text-5xl md:text-6xl font-bold text-red-600"
+            />
+          </h1>
+          <Badge className="bg-blue-600">Starts Here</Badge>
+          {/* Description */}
+          <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl">
+            Professional language training for students online. Learn A1 to B2
+            levels with personalized guidance from me.
+          </p>
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link
+              href="/videos"
+              className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition flex items-center justify-center shadow-lg hover:shadow-xl"
+            >
+              Start Learning
+              <ChevronRight className="ml-2 h-5 w-5" />
+            </Link>
+            <a
+              href="https://wa.me/+4915221553164"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="bg-white border-2 border-gray-300 text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 transition flex items-center justify-center shadow hover:shadow-md">
+                <MessageCircle className="mr-2 h-5 w-5 text-green-600" />
+                Chat on WhatsApp
+              </button>
+            </a>
+          </div>
+          {/* Trust Badge */}
+          <div className="hidden md:flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
+            <div className="flex -space-x-2">
+              <div className="w-10 h-10 rounded-full bg-blue-400 border-2 border-white"></div>
+              <div className="w-10 h-10 rounded-full bg-green-400 border-2 border-white"></div>
+              <div className="w-10 h-10 rounded-full bg-purple-400 border-2 border-white"></div>
+            </div>
+            <p className="text-sm text-gray-600 font-medium">
+              Trusted by 500+ students
+            </p>
+          </div>
+        </div>
+        {/* Background pattern */}
+        <div
+          className="absolute inset-0 -z-50
+             bg-[#f5f5ff]
+             bg-[linear-gradient(-45deg,#f5f5ff,#f5f5ff_50%,#dbe0ff_50%,#dbe0ff)]
+           bg-size-[20px_20px]
+              opacity-[0.3]
+               pointer-events-none"
+        ></div>
+      </section>
+    );
+  }
+
+  // Show layout with blog (or loading/error states)
   return (
     <section
       id="home"
@@ -184,57 +237,57 @@ export const Hero = () => {
           >
             {/* Heading */}
             <div className="space-y-3">
-              <Badge className="bg-blue-600 text-white border-0">
+              <Badge className="bg-blue-600 text-white border-0 text-xs sm:text-sm">
                 🇩🇪 Learn German
               </Badge>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-gray-900 leading-[1.1]">
+              <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 leading-[1.1]">
                 Master German
                 <br />
                 from <span className="text-blue-600">Nepal</span>
               </h1>
-              <div className="flex items-center gap-2 text-3xl sm:text-4xl lg:text-5xl font-bold">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-2xl xs:text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold flex-wrap">
                 <span className="text-gray-900">Journey to</span>
                 <LocalTypewriter
                   text={"Germany"}
-                  className="text-3xl sm:text-4xl lg:text-5xl font-bold text-red-600"
+                  className="text-2xl xs:text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-red-600"
                 />
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed max-w-xl">
               Learn A1 to B2 with expert guidance. Professional training
               designed for Nepali students heading to Germany.
             </p>
 
             {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <Link
                 href="/videos"
-                className="bg-blue-600 text-white px-7 py-3.5 rounded-lg font-semibold hover:bg-blue-700 transition flex items-center justify-center shadow-lg hover:shadow-xl"
+                className="bg-blue-600 text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold hover:bg-blue-700 transition flex items-center justify-center shadow-lg hover:shadow-xl"
               >
                 Start Learning
-                <ChevronRight className="ml-1.5 h-5 w-5" />
+                <ChevronRight className="ml-1.5 h-4 w-4 sm:h-5 sm:w-5" />
               </Link>
               <a
                 href="https://wa.me/+4915221553164"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white border-2 border-gray-200 text-gray-900 px-7 py-3.5 rounded-lg font-semibold hover:bg-gray-50 transition flex items-center justify-center"
+                className="bg-white border-2 border-gray-200 text-gray-900 px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold hover:bg-gray-50 transition flex items-center justify-center"
               >
-                <MessageCircle className="mr-1.5 h-5 w-5 text-green-600" />
+                <MessageCircle className="mr-1.5 h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
                 WhatsApp
               </a>
             </div>
 
             {/* Trust Badge */}
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center gap-2 sm:gap-3 pt-2">
               <div className="flex -space-x-2">
-                <div className="w-9 h-9 rounded-full bg-blue-500 border-2 border-white"></div>
-                <div className="w-9 h-9 rounded-full bg-green-500 border-2 border-white"></div>
-                <div className="w-9 h-9 rounded-full bg-purple-500 border-2 border-white"></div>
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-500 border-2 border-white"></div>
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-green-500 border-2 border-white"></div>
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-purple-500 border-2 border-white"></div>
               </div>
-              <p className="text-sm text-gray-600 font-medium">
+              <p className="text-xs sm:text-sm text-gray-600 font-medium">
                 500+ students trust us
               </p>
             </div>
@@ -244,7 +297,6 @@ export const Hero = () => {
           {isPending && <BlogSkeleton />}
           {isError && <BlogError />}
           {hasBlog && <LatestBlogCard blog={blog.blogs[0]} />}
-          {hasNoBlog && <NoBlogs />}
         </div>
       </div>
 
