@@ -20,11 +20,15 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "uzgancyz1g.ufs.sh",
       },
+      {
+        protocol: "https",
+        hostname: "35grktkmb7.ufs.sh",
+      },
     ],
   },
   experimental: {
-    typedEnv: true
-  }
+    typedEnv: true,
+  },
 };
 
 export default nextConfig;
