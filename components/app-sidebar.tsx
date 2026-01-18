@@ -12,8 +12,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { authClient } from "@/utils/auth-client";
-import { Skeleton } from "./ui/skeleton";
 import { NavMain } from "./nav-main";
 
 const data = {
@@ -45,8 +43,22 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: session, isPending } = authClient.useSession();
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  user: {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    email: string;
+    emailVerified: boolean;
+    name: string;
+    image?: string | null | undefined | undefined;
+    banned: boolean | null | undefined;
+    role?: string | null | undefined;
+    banReason?: string | null | undefined;
+    banExpires?: Date | null | undefined;
+  };
+}
+export function AppSidebar({ user, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -56,17 +68,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        {isPending ? (
-          <div className="flex items-center gap-1 py-2">
-            <Skeleton className="w-8 h-8 rounded-full" />
-            <div className="flex flex-col gap-1 flex-1">
-              <Skeleton className="h-4 w-1/2" />
-              <Skeleton className="h-4 w-full" />
-            </div>
-          </div>
-        ) : (
-          session && <NavUser user={session.user} />
-        )}
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

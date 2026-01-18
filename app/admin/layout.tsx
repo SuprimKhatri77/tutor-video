@@ -7,16 +7,26 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { auth } from "@/utils/auth";
+import { headers } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session || session.user.role !== "admin") {
+    await auth.api.signOut({ headers: await headers() });
+    redirect("/");
+  }
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar user={session.user} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
