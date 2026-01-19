@@ -15,6 +15,5 @@ export default async function Page() {
     await auth.api.signOut({ headers: await headers() });
     redirect("/");
   }
-
-  redirect("/admin/blogs");
+  redirect("/admin/dashboard");
 }

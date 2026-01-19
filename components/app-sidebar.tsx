@@ -1,7 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { ChartAreaIcon, ClockIcon, NotebookPenIcon } from "lucide-react";
+import {
+  ChartAreaIcon,
+  ClockIcon,
+  FileQuestionIcon,
+  NotebookPenIcon,
+} from "lucide-react";
 
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
@@ -38,6 +43,12 @@ const data = {
       title: "Events",
       url: "/admin/events",
       icon: ClockIcon,
+      isActive: true,
+    },
+    {
+      title: "Queries",
+      url: "/admin/queries",
+      icon: FileQuestionIcon,
       isActive: true,
     },
   ],

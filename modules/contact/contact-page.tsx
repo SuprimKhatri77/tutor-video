@@ -1,17 +1,16 @@
 "use client";
 
-import { useState, FormEvent, ChangeEvent, JSX } from "react";
+import { contactUsAction } from "@/actions/contact-us/contact-us";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { ContactUsResponse } from "@/utils/validators/contact-us.validator";
+import { useState, FormEvent, JSX } from "react";
+import { toast } from "sonner";
 
 interface FormData {
   name: string;
   subject: string;
   message: string;
-}
-
-interface FormErrors {
-  name?: string;
-  subject?: string;
-  message?: string;
 }
 
 export default function ContactPage(): JSX.Element {
@@ -21,58 +20,27 @@ export default function ContactPage(): JSX.Element {
     message: "",
   });
 
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [errors, setErrors] = useState<ContactUsResponse["errors"]>({});
+  const [isPending, setIsPending] = useState<boolean>(false);
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: undefined,
-      }));
-    }
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
-    if (!formData.subject.trim()) {
-      newErrors.subject = "Subject is required";
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!validateForm()) {
-      return;
+    setIsPending(true);
+    try {
+      const result = await contactUsAction(formData);
+      if (!result.success) {
+        toast.error(result.message);
+        if (result.errors) {
+          setErrors(result.errors);
+        }
+        return;
+      }
+      toast.success(result.message);
+      setErrors({});
+    } finally {
+      setFormData({ name: "", message: "", subject: "" });
+      setIsPending(false);
     }
-
-    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=bikashtimalsina1992@gmail.com&su=${encodeURIComponent(
-      formData.subject
-    )}&body=${encodeURIComponent(
-      `Name: ${formData.name}\n\n${formData.message}`
-    )}`;
-
-    window.open(gmailLink, "_blank");
-    setFormData({ name: "", message: "", subject: "" });
   };
 
   return (
@@ -116,14 +84,16 @@ export default function ContactPage(): JSX.Element {
               id="name"
               name="name"
               value={formData.name}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className={`w-full px-4 py-3 border-2 ${
-                errors.name ? "border-red-500" : "border-black"
+                errors && errors.name ? "border-red-500" : "border-black"
               } bg-white text-black focus:outline-none focus:ring-2 focus:ring-black transition-all`}
               placeholder="John Doe"
             />
-            {errors.name && (
-              <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+            {errors && errors.name && (
+              <p className="mt-1 text-sm text-red-500">{errors.name[0]}</p>
             )}
           </div>
 
@@ -139,14 +109,16 @@ export default function ContactPage(): JSX.Element {
               id="subject"
               name="subject"
               value={formData.subject}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, subject: e.target.value })
+              }
               className={`w-full px-4 py-3 border-2 ${
-                errors.subject ? "border-red-500" : "border-black"
+                errors && errors.subject ? "border-red-500" : "border-black"
               } bg-white text-black focus:outline-none focus:ring-2 focus:ring-black transition-all`}
               placeholder="How can I help you?"
             />
-            {errors.subject && (
-              <p className="mt-1 text-sm text-red-500">{errors.subject}</p>
+            {errors && errors.subject && (
+              <p className="mt-1 text-sm text-red-500">{errors.subject[0]}</p>
             )}
           </div>
 
@@ -161,29 +133,33 @@ export default function ContactPage(): JSX.Element {
               id="message"
               name="message"
               value={formData.message}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, message: e.target.value })
+              }
               rows={6}
               className={`w-full px-4 py-3 border-2 ${
-                errors.message ? "border-red-500" : "border-black"
+                errors && errors.message ? "border-red-500" : "border-black"
               } bg-white text-black focus:outline-none focus:ring-2 focus:ring-black transition-all resize-none`}
               placeholder="Tell us more about your inquiry..."
             />
-            {errors.message && (
-              <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+            {errors && errors.message && (
+              <p className="mt-1 text-sm text-red-500">{errors.message[0]}</p>
             )}
           </div>
 
-          <button
+          <Button
             disabled={
               formData.message === "" ||
               formData.subject === "" ||
-              formData.name === ""
+              formData.name === "" ||
+              isPending
             }
+            size="lg"
             type="submit"
-            className="w-full bg-blue-600 text-white py-4 px-6 font-semibold disabled:opacity-75 text-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            className="w-full bg-gray-600 text-white py-7 px-6 font-semibold disabled:opacity-75 text-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 "
           >
-            Continue to Gmail
-          </button>
+            {isPending ? <Spinner /> : "Send Message"}
+          </Button>
         </form>
       </div>
     </div>

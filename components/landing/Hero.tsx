@@ -72,22 +72,26 @@ const LatestBlogCard = ({ blog }: { blog: BlogsSelectType }) => {
     <div className="w-full group">
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300">
         {/* Blog Image */}
-        <div className="relative h-56 bg-linear-to-br from-gray-50 to-gray-100 overflow-hidden">
-          <Image
-            src={
-              blog.images?.[0] ||
-              "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800&q=80"
-            }
-            alt={blog.title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          <div className="absolute top-3 left-3">
-            <Badge className="bg-gray-900 text-white text-xs border-0 shadow-lg">
-              Latest Post
-            </Badge>
+
+        {blog.images && blog.images.length > 0 ? (
+          <div className="relative h-56 bg-linear-to-br from-gray-50 to-gray-100 overflow-hidden">
+            <Image
+              src={blog.images[0]}
+              alt={blog.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute top-3 left-3">
+              <Badge className="bg-gray-900 text-white text-xs border-0 shadow-lg">
+                Latest Post
+              </Badge>
+            </div>
           </div>
-        </div>
+        ) : (
+          <h1 className="m-4 inline-flex items-center text-sm sm:text-base font-medium px-3 py-1.5 rounded-full bg-blue-500/15 backdrop-blur-md border border-blue-400/30 text-blue-700 shadow-sm">
+            Latest post
+          </h1>
+        )}
 
         {/* Blog Content */}
         <div className="p-6">
@@ -288,7 +292,7 @@ export const Hero = () => {
                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-purple-500 border-2 border-white"></div>
               </div>
               <p className="text-xs sm:text-sm text-gray-600 font-medium">
-                500+ students trust us
+                500+ students trust me
               </p>
             </div>
           </div>
