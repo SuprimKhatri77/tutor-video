@@ -1,6 +1,6 @@
-import {  Languages } from "lucide-react";
+import { Languages } from "lucide-react";
 import Link from "next/link";
-import {  FaTiktok, FaYoutube } from "react-icons/fa";
+import { FaTiktok, FaYoutube } from "react-icons/fa";
 
 const Quick_Links_Items = [
   {
@@ -26,9 +26,8 @@ const Legal_Item_Links = [
   {
     label: "Terms of Service",
     link: "/terms-of-service",
-  }
+  },
 ];
-
 
 const Social_Items = [
   {
@@ -43,7 +42,7 @@ const Social_Items = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-200">
+    <footer className="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-200 ">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
@@ -59,20 +58,20 @@ export const Footer = () => {
               quality language education.
             </p>
             <div className="flex space-x-3">
-              {
-                Social_Items.map((item)=>{
-                const Icon = item.icon
-                return  <a
-                key={item.link}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10  border-black border rounded-full flex items-center justify-center transition"
-              >
-                <Icon className="h-5 w-5" />
-              </a>
-                })
-              }
+              {Social_Items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.link}
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10  border-black border rounded-full flex items-center justify-center transition"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 

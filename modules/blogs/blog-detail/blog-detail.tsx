@@ -136,7 +136,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
           </div>
 
           {/* Title */}
-          <h1 className="text-6xl font-light leading-tight tracking-tight mb-8">
+          <h1 className="text-5xl sm:text-6xl font-light leading-tight tracking-tight mb-8 ">
             {blog.title}
           </h1>
 
@@ -148,7 +148,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
               {/* First Part of Description (Before Images) */}
               <div className="prose prose-lg max-w-none mb-16 pb-16 border-b border-gray-200">
                 {renderParagraphs(
-                  splitDescription(blog.description).beforeImages
+                  splitDescription(blog.description).beforeImages,
                 )}
               </div>
 
@@ -222,7 +222,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
               {/* Second Part of Description (After Images) */}
               <div className="prose prose-lg max-w-none">
                 {renderParagraphs(
-                  splitDescription(blog.description).afterImages
+                  splitDescription(blog.description).afterImages,
                 )}
               </div>
             </>
