@@ -46,9 +46,9 @@ export const EventsPage = () => {
     };
     // google calendar url to navigate the user
     const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      event.title
+      event.title,
     )}&dates=${formatCalendarDate(eventDate)}/${formatCalendarDate(
-      endDate
+      endDate,
     )}&details=${encodeURIComponent(event.body || "")}&sf=true&output=xml`;
 
     window.open(calendarUrl, "_blank");
@@ -70,18 +70,16 @@ export const EventsPage = () => {
         </div>
         {isPending && <EventSkeleton />}
 
+        {!isPending && events && events.length === 0 && (
+          <div className="text-center py-12">
+            <Clock className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+            <h3 className="text-lg font-medium mb-2">No upcoming events</h3>
+            <p className="text-muted-foreground">
+              Check back later for new events
+            </p>
+          </div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {!isPending && events && events.length === 0 && (
-            /* show when no event are added in db  */
-
-            <div className="text-center py-12">
-              <Clock className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-medium mb-2">No upcoming events</h3>
-              <p className="text-muted-foreground">
-                Check back later for new events
-              </p>
-            </div>
-          )}
           {!isPending &&
             events &&
             events.length > 0 &&

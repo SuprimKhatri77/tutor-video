@@ -143,11 +143,9 @@ export const Hero = () => {
     gcTime: 1000 * 60 * 20,
   });
 
-  // Determine if we should show the blog layout (2 columns)
   const shouldShowBlogLayout = isPending || (blog && blog.blogs.length > 0);
   const hasBlog = !isPending && !isError && blog && blog.blogs.length > 0;
 
-  // If no blog and not loading, show original centered layout
   if (!isPending && !isError && (!blog || blog.blogs.length === 0)) {
     return (
       <section
@@ -181,7 +179,7 @@ export const Hero = () => {
               Start Learning
               <ChevronRight className="ml-2 h-5 w-5" />
             </Link>
-            <a
+            {/* <a
               href="https://wa.me/+4915221553164"
               target="_blank"
               rel="noopener noreferrer"
@@ -190,7 +188,7 @@ export const Hero = () => {
                 <MessageCircle className="mr-2 h-5 w-5 text-green-600" />
                 Chat on WhatsApp
               </button>
-            </a>
+            </a> */}
           </div>
           {/* Trust Badge */}
           <div className="hidden md:flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
@@ -273,7 +271,7 @@ export const Hero = () => {
                 Start Learning
                 <ChevronRight className="ml-1.5 h-4 w-4 sm:h-5 sm:w-5" />
               </Link>
-              <a
+              {/* <a
                 href="https://wa.me/+4915221553164"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -281,7 +279,7 @@ export const Hero = () => {
               >
                 <MessageCircle className="mr-1.5 h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
                 WhatsApp
-              </a>
+              </a> */}
             </div>
 
             {/* Trust Badge */}
